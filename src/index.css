@@ -1,0 +1,250 @@
+:root {
+  --bg: #FAFAF8;
+  --text: #1C1C1A;
+  --text-muted: #6B6A63;
+  --border: #E8E4DA;
+  --accent-green: #2D5A4A;
+  --accent-brown: #8B6F47;
+  --accent-red: #C4443E;
+  --demo-bg:#d6d4d5;
+
+  --sans: 'IBM Plex Sans', system-ui, sans-serif;
+  --serif: 'Fraunces', Georgia, serif;
+
+  color-scheme: light dark;
+  font-family: var(--sans);
+  color: var(--text);
+  background: var(--bg);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #16171A;
+    --text: #F0EFE8;
+    --text-muted: #9A9890;
+    --border: #33322C;
+    --demo-bg:#3c353c;
+  }
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+}
+
+.container {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 2rem 1.5rem;
+}
+
+h1 {
+  font-family: var(--serif);
+  font-weight: 500;
+  font-size: 28px;
+  margin: 0 0 1.5rem;
+}
+
+/* Summary row */
+.summary {
+  display: flex;
+  gap: 2.5rem;
+  padding-bottom: 1.25rem;
+  border-bottom: 1px solid var(--border);
+  margin-bottom: 1.5rem;
+  flex-wrap: wrap;
+}
+
+.summary-item .value {
+  font-family: var(--serif);
+  font-size: 28px;
+  font-weight: 500;
+}
+
+.summary-item .label {
+  font-size: 13px;
+  color: var(--text-muted);
+  margin-top: 2px;
+}
+
+.summary-item.revenue .value { color: var(--accent-green); }
+.summary-item.failed .value { color: var(--accent-red); }
+
+/* Table */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+}
+
+thead th {
+  text-align: left;
+  font-weight: 500;
+  font-size: 12px;
+  color: var(--text-muted);
+  padding-bottom: 8px;
+}
+
+tbody tr {
+  border-top: 1px solid var(--border);
+}
+
+td {
+  padding: 10px 8px 10px 0;
+}
+
+td.order-number,
+td.total {
+  font-family: var(--serif);
+}
+
+.status {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.status::before {
+  content: '';
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--text-muted);
+}
+
+.status-sent::before { background: var(--accent-green); }
+.status-failed::before { background: var(--accent-red); }
+.status-pending::before { background: var(--accent-brown); }
+
+.download-btn {
+  background: none;
+  border: none;
+  color: var(--text-muted);
+  cursor: pointer;
+  font-size: 13px;
+  padding: 0;
+}
+
+.download-btn:hover {
+  color: var(--text);
+}
+
+/* Demo card */
+.demo-card {
+    margin-top: 2.5rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--border);
+    background: var( --demo-bg);
+    border-radius: 10px;
+}
+
+.demo-card h2 {
+  font-family: var(--serif);
+  font-weight: 500;
+  font-size: 18px;
+  margin: 0 0 4px;
+}
+
+.demo-card p {
+  color: var(--text-muted);
+  font-size: 14px;
+  margin: 0 0 1rem;
+}
+
+.demo-card form {
+  display: flex;
+  gap: 8px;
+}
+
+.demo-card input {
+  flex: 1;
+  padding: 8px 12px;
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  font-family: var(--sans);
+  font-size: 14px;
+  background: var(--bg);
+  color: var(--text);
+}
+
+.demo-card button {
+  padding: 8px 16px;
+  border: 1px solid var(--text);
+  border-radius: 4px;
+  background: var(--text);
+  color: var(--bg);
+  font-family: var(--sans);
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.demo-card button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+/* Scroll wrapper as universal fallback */
+.table-wrapper {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* Summary row wraps naturally already via flex-wrap, but tighten spacing on mobile */
+@media (max-width: 640px) {
+  .container {
+    padding: 1.5rem 1rem;
+  }
+
+  h1 {
+    font-size: 22px;
+  }
+
+  .summary {
+    gap: 1.25rem;
+  }
+
+  .summary-item .value {
+    font-size: 22px;
+  }
+
+  /* Card reflow: hide table headers, stack each row as a labeled card */
+  table, thead, tbody, tr, td {
+    display: block;
+    width: 100%;
+  }
+
+  thead {
+    display: none;
+  }
+
+  tbody tr {
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 12px;
+    margin-bottom: 10px;
+  }
+
+  td {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 4px 0;
+    border: none;
+  }
+
+  td::before {
+    content: attr(data-label);
+    font-size: 12px;
+    color: var(--text-muted);
+    font-weight: 500;
+  }
+
+  .table-wrapper {
+    overflow-x: visible; /* no longer needed once cards stack */
+  }
+  .demo-card form {
+    flex-direction: column;
+  }
+}
